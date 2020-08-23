@@ -4,6 +4,7 @@ import cn.edu.guet.common.Result;
 import cn.edu.guet.dt.UserDto;
 import cn.edu.guet.model.User;
 import cn.edu.guet.service.IUserService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,18 +37,14 @@ public class UserController {
      */
     @RequestMapping(value = "login",method = {RequestMethod.POST})
     @ResponseBody
-    public Result login(String username,String password){
-        System.out.println("username: "+username);
-        System.out.println("password: "+password);
-        User user=userService.login(username,password);
+    public Result login(@RequestBody UserDto userDto){
+        System.out.println("username: "+userDto.getUsername());
+        System.out.println("password: "+userDto.getPassword());
+        User user=userService.login(userDto.getUsername(),userDto.getPassword());
         if(user!=null){
             return Result.succ(user);
         }else{
             return Result.fail("请求失败");
         }
-    }
-    @RequestMapping("saveUser")
-    public void saveUser(String user){
-
     }
 }
